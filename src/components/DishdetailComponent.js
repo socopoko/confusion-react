@@ -13,7 +13,7 @@ class Dishdetail extends Component {
                 <Card>
                     <CardImg width="100%" src={dish.image} alt={dish.name} />
                     <CardBody>
-                        <CardTitle><h6>{dish.name}</h6></CardTitle>
+                        <CardTitle><h4>{dish.name}</h4></CardTitle>
                         <CardText>{dish.description}</CardText>
                     </CardBody>
                 </Card>
@@ -27,13 +27,12 @@ class Dishdetail extends Component {
     }
 
     renderList(comments) {  
-        let options = { year: "numeric", month: "short", day: "numeric" };
         return comments.map(comment => (
             <ul key={comment.id} className="list-unstyled">
                 <li className="mb-2">{comment.comment}</li>
                 <li>
                     -- {comment.author}{" "}
-                    {new Date(comment.date).toLocaleDateString("en-US", options)}
+                    {new Date(comment.date).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" })}
                 </li>
             </ul>
         ));       
@@ -57,12 +56,14 @@ class Dishdetail extends Component {
 
     render() {
         return (
-            <div className="row">
-                <div className="col-12 col-md-5 m-1">
-                    {this.renderDish(this.props.selectedDish)}
-                </div>
-                <div className="col-12 col-md-5 m-1">   
-                    {this.renderComments(this.props.selectedDish)}
+            <div className="container">
+                <div className="row">
+                    <div className="col-12 col-md-5 m-1">
+                        {this.renderDish(this.props.dish)}
+                    </div>
+                    <div className="col-12 col-md-5 m-1">   
+                        {this.renderComments(this.props.dish)}
+                    </div>
                 </div>
             </div>
         );
