@@ -1,6 +1,10 @@
 import * as ActionTypes from './ActionTypes';
 import { baseUrl } from '../shared/baseUrl';
 
+export const  postFeedback = (feedback) => (dispatch) => {
+
+}
+
 // Comment 
 export const addComment = (comment) => ({
     type: ActionTypes.ADD_COMMENT,
@@ -39,7 +43,8 @@ export const postComment = (dishId, rating, author, comment) => (dispatch) => {
             })
         .then(response => response.json())
         .then(response => dispatch(addComment(response)))
-        .catch(error => { console.log('post comments', error.message); alert('Your comment could not be posted\nError: ' + error.message); });
+        .catch(error => { console.log('post comments', error.message); 
+            alert('Your comment could not be posted\nError: ' + error.message); });
 };
 
 // Dishes
