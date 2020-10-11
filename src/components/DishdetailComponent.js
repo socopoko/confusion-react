@@ -100,21 +100,22 @@ class CommentForm extends Component {
 }
 
 
-    function RenderDish({dish}){
-        return (
-            <div className="col-12 col-md-5 m-1">
-                <Card>
-                    <CardImg top src={baseUrl + dish.image} alt={dish.name} />
-                    <CardBody>
-                        <CardTitle><h4>{dish.name}</h4></CardTitle>
-                        <CardText>{dish.description}</CardText>
-                    </CardBody>
-                </Card>
-            </div>
-        )   
-    }
+function RenderDish({dish}){
+    return (
+        <div className="col-12 col-md-5 m-1">
+            <Card>
+                <CardImg top src={baseUrl + dish.image} alt={dish.name} />
+                <CardBody>
+                    <CardTitle><h4>{dish.name}</h4></CardTitle>
+                    <CardText>{dish.description}</CardText>
+                </CardBody>
+            </Card>
+        </div>
+    )   
+}
 
-function RenderComments({ comments, postComment, dishId }) {        const mycomments = comments.map((comment) => {
+function RenderComments({ comments, postComment, dishId }) {        
+    const mycomments = comments.map((comment) => {
             return(
                 <ul key={comment.id} className="list-unstyled">
                     <li className="mb-2">{comment.comment}</li>
@@ -123,61 +124,62 @@ function RenderComments({ comments, postComment, dishId }) {        const mycomm
                         {new Date(comment.date).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" })}
                     </li>
                 </ul>
-            )});
+            )
+        });
 
-        return (
-            <div className="col-12 col-md-5 m-1"> 
-                <h4>Comments</h4>
-                { mycomments }
-                <CommentForm dishId={dishId} postComment={postComment} />
+    return (
+        <div className="col-12 col-md-5 m-1"> 
+            <h4>Comments</h4>
+            { mycomments }
+            <CommentForm dishId={dishId} postComment={postComment} />
+        </div>
+    )
+}
+
+const DishDetail = (props) => {
+    if(props.isLoading) {
+        return(
+            <div className="container">
+                <div className="row">
+                    <Loading />
+                </div>
             </div>
-        )
+        );
     }
-
-    const DishDetail = (props) => {
-        if(props.isLoading) {
-            return(
-                <div className="container">
-                    <div className="row">
-                        <Loading />
-                    </div>
+    else if(props.errMess) {
+        return (
+            <div className="container">
+                <div className="row">
+                <h4>{props.errMess}</h4>
                 </div>
-            );
-        }
-        else if(props.errMess) {
-            return (
-                <div className="container">
-                    <div className="row">
-                    <h4>{props.errMess}</h4>
-                    </div>
-                </div>
-            );
-        }
-        if (props.dish != null) {
-            return (
-                <div className="container">
-                    <div className="row">
-                        <Breadcrumb>
-                            <BreadcrumbItem><Link to='/menu'>Menu</Link></BreadcrumbItem>
-                            <BreadcrumbItem active>{props.dish.name}</BreadcrumbItem>
-                        </Breadcrumb>
-                        <div className="col-12">
-                            <h3>{props.dish.name}</h3>
-                            <hr />
-                        </div>
-                    </div>
-                    <div className="row">
-                        <RenderDish dish={props.dish} />
-                        <RenderComments comments={props.comments} 
-                            postComment={props.postComment}
-                            dishId={props.dish.id}
-                        />
-                    </div>
-                </div>
-            );
-        }
-        else { return (<div> </div>); }        
+            </div>
+        );
     }
+    else if(props.dish != null) {
+        return (
+            <div className="container">
+                <div className="row">
+                    <Breadcrumb>
+                        <BreadcrumbItem><Link to='/menu'>Menu</Link></BreadcrumbItem>
+                        <BreadcrumbItem active>{props.dish.name}</BreadcrumbItem>
+                    </Breadcrumb>
+                    <div className="col-12">
+                        <h3>{props.dish.name}</h3>
+                        <hr />
+                    </div>
+                </div>
+                <div className="row">
+                    <RenderDish dish={props.dish} />
+                    <RenderComments comments={props.comments} 
+                        postComment={props.postComment}
+                        dishId={props.dish.id}
+                    />
+                </div>
+            </div>
+        );
+    }
+    else { return (<div> </div>); }        
+}
 
 export default DishDetail; 
 
